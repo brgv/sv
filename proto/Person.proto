@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package proto;
+
+//option go_package = "github.com/brgv/sv;proto";
+//option go_package = "proto";
+
+message PersonRequest {
+    uint64 id = 1;
+}
+
+message Person {
+    uint64 id = 1;
+    string lastName = 10;
+    string firstName = 11;
+    string middleName = 12;
+}
+
+message PersonList {
+    repeated Person data = 1;
+}
+
+service PersonService {
+
+    rpc GetPerson (PersonRequest) returns (Person) {
+    }
+
+    rpc GetPersonList (PersonRequest) returns (PersonList) {
+    }
+
+}
