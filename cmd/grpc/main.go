@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/brgv/sv/gen/rpc"
-	"github.com/brgv/sv/internal/person"
-	"github.com/brgv/sv/internal/position"
+	"github.com/brgv/sv/internal/rpc/person"
+	"github.com/brgv/sv/internal/rpc/position"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
