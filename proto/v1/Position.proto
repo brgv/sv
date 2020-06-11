@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package v1.rpc;
+
+option go_package = "github.com/brgv/sv/gen/v1/rpc";
+
+import "google/api/annotations.proto";
+//import "google/protobuf/struct.proto";
+
+// Запрос позиции
+message PositionId {
+    // Уникальный идентификатор записи
+    uint64 id = 1;
+}
+
+// Данные позиции
+message PositionData {
+    // Название записи
+    string name = 1;
+}
+
+// Позиция
+message Position {
+    // Уникальный идентификатор записи
+    uint64 id = 1;
+    // Название записи
+    string name = 10;
+}
+
+// Запрос списка записей
+message PositionListFilter {
+    // Количество записей
+    uint64 limit = 1;
+    // Смещение записей
+    uint64 start = 2;
+}
+
+// Ответ с списком записей
+message PositionList {
+    // Список записей
+    repeated Position data = 1;
+}
+
+// Позиции
+service PositionService {
+
+    // Получить запись по уникальному идентификатору
+    rpc GetPosition (PositionId) returns (Position) {
+        option (google.api.http) = {
+            get: "/api/v1/positions/{id}"
+        };
+    }
+
+    // Удалить запись по уникальному идентификатору
+    rpc DestroyPosition (PositionId) returns (Position) {
+        option (google.api.http) = {
+            delete: "/api/v1/positions/{id}"
+        };
+    }
+
+    // Создать запись
+    rpc CreatePosition (PositionData) returns (Position) {
+        option (google.api.http) = {
+            post: "/api/v1/positions"
+            body: "*"
+        };
+    }
+
+    // Обновить запись по уникальному идентификатору
+    rpc UpdatePosition (Position) returns (Position) {
+        option (google.api.http) = {
+            put: "/api/v1/positions/{id}"
+            body: "*"
+        };
+    }
+
+    // Получить список записей
+    rpc GetPositionList (PositionListFilter) returns (PositionList) {
+        option (google.api.http) = {
+            get: "/api/v1/positions"
+        };
+    }
+
+}

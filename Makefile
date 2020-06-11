@@ -1,5 +1,52 @@
 #!/usr/bin/env make
+# ---------------------------------------------------------------------------------------------------------------------
 
-compile:
-	protoc -I . -I /usr/local/include --proto_path=. --go_out=plugins=grpc:./gen ./proto/*.proto
-	#protoc -I . -I /usr/local/include --proto_path=. --go_out=$(GOPATH)/src ./proto/*.proto
+# Загрузить окружение по умолчания
+-include .env.dist
+# Загрузить окружение локального переопределения
+-include .env
+# Экспортировать окружение
+export
+
+# ---------------------------------------------------------------------------------------------------------------------
+
+#BUILD_USER := $(or ${BUILD_USER},${BUILD_USER},$(shell whoami))
+
+# Версия приложения
+VERSION ?= 0.1.0
+
+# Номер сборки (локально = 1, определяет CI)
+BUILD_NUMBER ?= 1
+
+# Ветка сборки
+BUILD_BRANCH ?= $(shell git symbolic-ref --short HEAD)
+
+# Коммит и автор изменений
+BUILD_HASH ?= $(shell git rev-parse --short HEAD)
+BUILD_USER ?= $(shell git log -1 --pretty=format:'%ae')
+
+# Время сборки
+BUILD_TIME ?= $(shell date "+%Y%m%d%H%M%S%Z")
+
+# ---------------------------------------------------------------------------------------------------------------------
+
+-include go-compile.mk
+-include go-proto.mk
+-include go.mk
+
+# ---------------------------------------------------------------------------------------------------------------------
+
+.PHONY: clean
+clean:
+	$(MAKE) go-clean
+
+.PHONY: build
+build:
+	$(MAKE) go-proto-build
+	$(MAKE) go-build
+
+.PHONY: test
+test:
+	$(MAKE) go-test
+
+# ---------------------------------------------------------------------------------------------------------------------

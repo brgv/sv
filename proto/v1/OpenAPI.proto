@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package v1.rpc;
+
+option go_package = "github.com/brgv/sv/gen/v1/rpc";
+
+import "protoc-gen-swagger/options/annotations.proto";
+//import "google/rpc/status.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+
+    info: {
+        title: "My Service"
+        version: "1.0"
+    };
+
+    schemes: [HTTP]
+
+    consumes: "application/json"
+    produces: "application/json"
+
+    responses: {
+        key: "404"
+        value: {
+            description: "Returned when the resource does not exist."
+            schema: {
+                json_schema: {
+                    type: STRING
+                };
+            };
+        };
+    };
+
+};
