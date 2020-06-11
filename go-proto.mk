@@ -24,11 +24,11 @@ PBPLUGINS_API += $(PBPLUGINS)
 
 .PHONY: pb-build-rpc
 pb-build-rpc:
-	$(PROTOC) $(PBFLAGS) $(PBPLUGINS) --proto_path=./proto ./proto/**/*.proto
+	$(PROTOC) $(PBFLAGS) $(PBPLUGINS) --proto_path=./proto ./proto/*.proto
 
 .PHONY: pb-build-api
 pb-build-api:
-	$(PROTOC) $(PBFLAGS) $(PBPLUGINS_API) --proto_path=./proto ./proto/**/*.proto
+	$(PROTOC) $(PBFLAGS) $(PBPLUGINS_API) --proto_path=./proto ./proto/*.proto
 
 .PHONY: pb-build
 pb-build: pb-build-api
