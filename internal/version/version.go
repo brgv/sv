@@ -5,7 +5,7 @@ import "log"
 // -----------------------------------------------------------------------------
 
 /**
- * -ldflags "-X 'main.Version=v${VERSION}'"
+ * -ldflags "-X 'main.Version=${VERSION}'"
  */
 var Version = "development"
 

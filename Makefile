@@ -41,9 +41,7 @@ clean:
 	$(MAKE) go-clean
 
 .PHONY: build
-build:
-	$(MAKE) go-proto-build
-	$(MAKE) go-build
+build: pb-build go-build
 
 .PHONY: test
 test:

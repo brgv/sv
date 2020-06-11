@@ -2,7 +2,7 @@ package person
 
 import (
 	"context"
-	"github.com/brgv/sv/gen/v1/rpc"
+	"github.com/brgv/sv/gen/rpc"
 )
 
 type RpcServer struct{}

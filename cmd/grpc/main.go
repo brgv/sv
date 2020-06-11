@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/brgv/sv/gen/v1/rpc"
+	"github.com/brgv/sv/gen/rpc"
 	"github.com/brgv/sv/internal/person"
 	"github.com/brgv/sv/internal/position"
 	"google.golang.org/grpc"

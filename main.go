@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/brgv/sv/version"
+	"github.com/brgv/sv/internal/version"
 )
 
 func main() {
