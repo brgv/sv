@@ -1,11 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"github.com/brgv/sv/internal/version"
+	"github.com/brgv/sv/cmd"
 )
 
 func main() {
-	fmt.Println("Hey!")
-	version.BuildPrintln()
+	cmd.Execute()
 }
