@@ -5,80 +5,87 @@ package rpc;
 option go_package = "github.com/brgv/sv/gen/rpc";
 
 import "google/api/annotations.proto";
-//import "google/protobuf/struct.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
 
 // Запрос позиции
 message PersonId {
-    uint64 id = 1;
+  uint64 id = 1;
 }
 
 // Данные позиции
 message PersonData {
-    // Название записи
-    string lastName = 10;
-    string firstName = 11;
-    string middleName = 12;
+  // Название записи
+  string lastName = 10;
+  string firstName = 11;
+  string middleName = 12;
 }
 
 message Person {
-    uint64 id = 1;
-    string lastName = 10;
-    string firstName = 11;
-    string middleName = 12;
+
+  uint64 id = 1;
+
+  google.protobuf.Timestamp dateCreated = 4 [json_name = "date_created"];
+  google.protobuf.Timestamp dateUpdated = 5 [json_name = "date_updated"];
+
+  string lastName = 10 [json_name = "last_name"];
+  string firstName = 11 [json_name = "first_name"];
+  string middleName = 12 [json_name = "middle_name"];
+
 }
 
 // Запрос списка записей
 message PersonListFilter {
-    // Количество записей
-    uint64 limit = 1;
-    // Смещение записей
-    uint64 start = 2;
+  // Количество записей
+  uint64 limit = 1;
+  // Смещение записей
+  uint64 start = 2;
 }
 
 // Ответ с списком записей
 message PersonList {
-    // Список записей
-    repeated Person data = 1;
+  // Список записей
+  repeated Person data = 1;
 }
 
 // Персоны
 service PersonService {
 
-    // Получить запись по уникальному идентификатору
-    rpc GetPerson (PersonId) returns (Person) {
-        option (google.api.http) = {
+  // Получить запись по уникальному идентификатору
+  rpc GetPerson (PersonId) returns (Person) {
+    option (google.api.http) = {
             get: "/api/v1/persons/{id}"
         };
-    }
+  }
 
-    // Удалить запись по уникальному идентификатору
-    rpc DestroyPerson (PersonId) returns (Person) {
-        option (google.api.http) = {
+  // Удалить запись по уникальному идентификатору
+  rpc DestroyPerson (PersonId) returns (Person) {
+    option (google.api.http) = {
             delete: "/api/v1/persons/{id}"
         };
-    }
+  }
 
-    // Создать запись
-    rpc CreatePerson (PersonData) returns (Person) {
-        option (google.api.http) = {
+  // Создать запись
+  rpc CreatePerson (PersonData) returns (Person) {
+    option (google.api.http) = {
             post: "/api/v1/persons"
             body: "*"
         };
-    }
+  }
 
-    // Обновить запись по уникальному идентификатору
-    rpc UpdatePerson (Person) returns (Person) {
-        option (google.api.http) = {
+  // Обновить запись по уникальному идентификатору
+  rpc UpdatePerson (Person) returns (Person) {
+    option (google.api.http) = {
             put: "/api/v1/persons/{id}"
             body: "*"
         };
-    }
+  }
 
-    // Получить список записей
-    rpc GetPersonList (PersonListFilter) returns (PersonList) {
-        option (google.api.http) = {
+  // Получить список записей
+  rpc GetPersonList (PersonListFilter) returns (PersonList) {
+    option (google.api.http) = {
             get: "/api/v1/persons"
         };
-    }
+  }
 
 }

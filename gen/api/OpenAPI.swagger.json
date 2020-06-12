@@ -460,6 +460,14 @@
           "type": "string",
           "format": "uint64"
         },
+        "dateCreated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dateUpdated": {
+          "type": "string",
+          "format": "date-time"
+        },
         "lastName": {
           "type": "string"
         },
