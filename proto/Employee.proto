@@ -39,7 +39,8 @@ message Employee {
 
 message EmployeeRequest {
   string version = 1;
-  Employee data = 2;
+  uint64 id = 2;
+  Employee data = 3;
 }
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -56,39 +57,47 @@ message ListEmployeeResponse {
 
 service EmployeeService {
 
+  // Create
   rpc Create (EmployeeRequest) returns (EmployeeResponse) {
     option (google.api.http) = {
-      post: "/api/v1/employees"
+      post: "/api/sv/v1/employees"
       body: "*"
     };
   }
 
+  // Update
   rpc Update (EmployeeRequest) returns (EmployeeResponse) {
     option (google.api.http) = {
-      put: "/api/v1/employees/{data.id}"
+      put: "/api/sv/v1/employees/{id}"
       body: "*"
-      additional_bindings {
-        patch: "/api/v1/employees/{data.id}"
-        body: "*"
-      }
     };
   }
 
+  // Destroy
   rpc Destroy (IdentityRequest) returns (StatusResponse) {
     option (google.api.http) = {
-      delete: "/api/v1/employees/{id}"
+      delete: "/api/sv/v1/employees/{id}"
     };
   }
 
+  // Retrieve
   rpc Retrieve (IdentityRequest) returns (EmployeeResponse) {
     option (google.api.http) = {
-      get: "/api/v1/employees/{id}"
+      get: "/api/v1/sv/employees/{id}"
     };
   }
 
+  // Read
   rpc Read (ListRequest) returns (ListEmployeeResponse) {
     option (google.api.http) = {
-      get: "/api/v1/employees"
+      get: "/api/v1/sv/employees"
+    };
+  }
+
+  // Find
+  rpc Find (ListRequest) returns (ListItemResponse) {
+    option (google.api.http) = {
+      get: "/api/sv/v1/employees/find"
     };
   }
 

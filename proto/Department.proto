@@ -39,7 +39,8 @@ message Department {
 
 message DepartmentRequest {
   string version = 1;
-  Department data = 2;
+  uint64 id = 2;
+  Department data = 3;
 }
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -56,39 +57,47 @@ message ListDepartmentResponse {
 
 service DepartmentService {
 
+  // Create
   rpc Create (DepartmentRequest) returns (DepartmentResponse) {
     option (google.api.http) = {
-      post: "/api/v1/departments"
+      post: "/api/sv/v1/departments"
       body: "*"
     };
   }
 
+  // Update
   rpc Update (DepartmentRequest) returns (DepartmentResponse) {
     option (google.api.http) = {
-      put: "/api/v1/departments/{data.id}"
+      put: "/api/sv/v1/departments/{id}"
       body: "*"
-      additional_bindings {
-        patch: "/api/v1/departments/{data.id}"
-        body: "*"
-      }
     };
   }
 
+  // Destroy
   rpc Destroy (IdentityRequest) returns (StatusResponse) {
     option (google.api.http) = {
-      delete: "/api/v1/departments/{id}"
+      delete: "/api/sv/v1/departments/{id}"
     };
   }
 
+  // Retrieve
   rpc Retrieve (IdentityRequest) returns (DepartmentResponse) {
     option (google.api.http) = {
-      get: "/api/v1/departments/{id}"
+      get: "/api/sv/v1/departments/{id}"
     };
   }
 
+  // Read
   rpc Read (ListRequest) returns (ListDepartmentResponse) {
     option (google.api.http) = {
-      get: "/api/v1/departments"
+      get: "/api/sv/v1/departments"
+    };
+  }
+
+  // Find
+  rpc Find (ListRequest) returns (ListItemResponse) {
+    option (google.api.http) = {
+      get: "/api/sv/v1/departments/find"
     };
   }
 

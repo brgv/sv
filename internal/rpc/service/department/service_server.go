@@ -30,3 +30,7 @@ func (s *serviceServer) Retrieve(ctx context.Context, in *rpc.IdentityRequest) (
 func (s *serviceServer) Read(ctx context.Context, in *rpc.ListRequest) (*rpc.ListDepartmentResponse, error) {
 	return nil, nil
 }
+
+func (s *serviceServer) Find(ctx context.Context, in *rpc.ListRequest) (*rpc.ListItemResponse, error) {
+	return nil, nil
+}
