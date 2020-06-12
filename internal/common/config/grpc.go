@@ -1,5 +1,9 @@
 package config
 
-type GrpcConfiguration struct {
+type GrpcServerConfiguration struct {
+	Port int
+}
+
+type GrpcClientConfiguration struct {
 	Port int
 }

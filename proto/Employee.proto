@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package rpc;
+
+// --------------------------------------------------------------------------------------------------------------------
+
+option go_package = "github.com/brgv/sv/gen/rpc";
+
+// --------------------------------------------------------------------------------------------------------------------
+
+//import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+import "proto/request.proto";
+import "proto/response.proto";
+
+// --------------------------------------------------------------------------------------------------------------------
+
+message Employee {
+  uint64 id = 1;
+  uint64 priority = 2;
+
+  string gid = 3;
+
+  google.protobuf.Timestamp date_created = 4 [json_name = "date_created"];
+  google.protobuf.Timestamp date_updated = 5 [json_name = "date_updated"];
+
+  google.protobuf.Timestamp date_removed = 6 [json_name = "date_removed"];
+  bool removed = 7;
+
+  google.protobuf.Timestamp date_enabled = 8 [json_name = "date_enabled"];
+  bool enabled = 9;
+
+  string name = 10;
+}
+
+// --------------------------------------------------------------------------------------------------------------------
+
+message EmployeeRequest {
+  string version = 1;
+  Employee data = 2;
+}
+
+// --------------------------------------------------------------------------------------------------------------------
+
+message EmployeeResponse {
+  Employee data = 1;
+}
+
+message ListEmployeeResponse {
+  repeated Employee data = 1;
+}
+
+// --------------------------------------------------------------------------------------------------------------------
+
+service EmployeeService {
+
+  rpc Create (EmployeeRequest) returns (EmployeeResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/employees"
+      body: "*"
+    };
+  }
+
+  rpc Update (EmployeeRequest) returns (EmployeeResponse) {
+    option (google.api.http) = {
+      put: "/api/v1/employees/{data.id}"
+      body: "*"
+      additional_bindings {
+        patch: "/api/v1/employees/{data.id}"
+        body: "*"
+      }
+    };
+  }
+
+  rpc Destroy (IdentityRequest) returns (StatusResponse) {
+    option (google.api.http) = {
+      delete: "/api/v1/employees/{id}"
+    };
+  }
+
+  rpc Retrieve (IdentityRequest) returns (EmployeeResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/employees/{id}"
+    };
+  }
+
+  rpc Read (ListRequest) returns (ListEmployeeResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/employees"
+    };
+  }
+
+}
+
+// --------------------------------------------------------------------------------------------------------------------

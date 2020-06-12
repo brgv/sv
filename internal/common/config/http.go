@@ -2,7 +2,7 @@ package config
 
 import "time"
 
-type HttpConfiguration struct {
+type HttpServerConfiguration struct {
 	Port         int
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration

@@ -2,6 +2,8 @@ package rpc
 
 import (
 	"github.com/brgv/sv/gen/rpc"
+	"github.com/brgv/sv/internal/rpc/service/department"
+	"github.com/brgv/sv/internal/rpc/service/employee"
 	"github.com/brgv/sv/internal/rpc/service/person"
 	"github.com/brgv/sv/internal/rpc/service/position"
 	"google.golang.org/grpc"
@@ -33,6 +35,18 @@ func SetupServer(server *grpc.Server) error {
 
 	if serviceServer, err := position.NewServiceServer(); err != nil {
 		rpc.RegisterPositionServiceServer(server, serviceServer)
+	} else {
+		return err
+	}
+
+	if serviceServer, err := employee.NewServiceServer(); err != nil {
+		rpc.RegisterEmployeeServiceServer(server, serviceServer)
+	} else {
+		return err
+	}
+
+	if serviceServer, err := department.NewServiceServer(); err != nil {
+		rpc.RegisterDepartmentServiceServer(server, serviceServer)
 	} else {
 		return err
 	}

@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func NewConfiguration() (*Configuration, error) {
+func init() {
 	viper.AddConfigPath(".")
 
 	viper.SetConfigName("config")
@@ -21,7 +21,7 @@ func NewConfiguration() (*Configuration, error) {
 	cwd, err := os.Getwd()
 
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 
 	viper.SetDefault("cwd", cwd)
@@ -40,14 +40,16 @@ func NewConfiguration() (*Configuration, error) {
 	viper.SetDefault("http.gracetimeout", "30s")
 
 	viper.SetDefault("grpc.port", "50051")
+}
 
+func NewConfiguration() (*Configuration, error) {
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, err
 	}
 
 	var configuration Configuration
 
-	if err = viper.Unmarshal(&configuration); err != nil {
+	if err := viper.Unmarshal(&configuration); err != nil {
 		return nil, err
 	}
 
@@ -60,6 +62,6 @@ type Configuration struct {
 	Migrate  MigrateConfiguration
 	Logger   LoggerConfiguration
 	Metric   MetricConfiguration
-	Http     HttpConfiguration
-	Grpc     GrpcConfiguration
+	Http     HttpServerConfiguration
+	Grpc     GrpcServerConfiguration
 }
