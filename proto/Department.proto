@@ -32,7 +32,9 @@ message Department {
   google.protobuf.Timestamp date_enabled = 8 [json_name = "date_enabled"];
   bool enabled = 9;
 
-  string name = 10;
+  uint64 parent_id = 10;
+
+  string name = 11;
 }
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -94,10 +96,24 @@ service DepartmentService {
     };
   }
 
+  // Read Children
+  rpc ReadChildren (IdentityRequest) returns (ListDepartmentResponse) {
+    option (google.api.http) = {
+      get: "/api/sv/v1/departments/{id}/children"
+    };
+  }
+
   // Find
   rpc Find (ListRequest) returns (ListItemResponse) {
     option (google.api.http) = {
       get: "/api/sv/v1/departments/find"
+    };
+  }
+
+  // Find Children
+  rpc FindChildren (IdentityRequest) returns (ListItemResponse) {
+    option (google.api.http) = {
+      get: "/api/sv/v1/departments/{id}/find"
     };
   }
 

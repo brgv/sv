@@ -31,6 +31,14 @@ func (s *serviceServer) Read(ctx context.Context, in *rpc.ListRequest) (*rpc.Lis
 	return nil, nil
 }
 
+func (s *serviceServer) ReadChildren(ctx context.Context, in *rpc.IdentityRequest) (*rpc.ListDepartmentResponse, error) {
+	return nil, nil
+}
+
 func (s *serviceServer) Find(ctx context.Context, in *rpc.ListRequest) (*rpc.ListItemResponse, error) {
+	return nil, nil
+}
+
+func (s *serviceServer) FindChildren(ctx context.Context, in *rpc.ListRequest) (*rpc.ListItemResponse, error) {
 	return nil, nil
 }

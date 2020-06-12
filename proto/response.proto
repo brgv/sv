@@ -27,6 +27,10 @@ message IdentityResponse {
   uint64 id = 1;
 }
 
+message IdentityMapResponse {
+  repeated uint64 id = 1;
+}
+
 // --------------------------------------------------------------------------------------------------------------------
 
 message ItemResponse {

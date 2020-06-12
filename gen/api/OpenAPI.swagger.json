@@ -122,10 +122,55 @@
         ]
       }
     },
+    "/api/sv/v1/departments/children": {
+      "get": {
+        "summary": "Read Children",
+        "operationId": "DepartmentService_ReadChildren",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/rpcListDepartmentResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "version",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "DepartmentService"
+        ]
+      }
+    },
     "/api/sv/v1/departments/find": {
       "get": {
-        "summary": "Find",
-        "operationId": "DepartmentService_Find",
+        "summary": "Find Children",
+        "operationId": "DepartmentService_FindChildren",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -1315,6 +1360,10 @@
         "enabled": {
           "type": "boolean",
           "format": "boolean"
+        },
+        "parent_id": {
+          "type": "string",
+          "format": "uint64"
         },
         "name": {
           "type": "string"
