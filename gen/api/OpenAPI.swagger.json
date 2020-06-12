@@ -5,8 +5,8 @@
     "version": "v0.0.0",
     "contact": {
       "name": "unknown",
-      "url": "unknown",
-      "email": "unknown"
+      "url": "http://unknown",
+      "email": "unknown@unknown"
     }
   },
   "schemes": [
@@ -21,13 +21,12 @@
   "paths": {
     "/api/v1/persons": {
       "get": {
-        "summary": "Получить список записей",
-        "operationId": "PersonService_GetPersonList",
+        "operationId": "PersonService_Read",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcPersonList"
+              "$ref": "#/definitions/rpcListPersonResponse"
             }
           },
           "404": {
@@ -46,20 +45,31 @@
         },
         "parameters": [
           {
-            "name": "limit",
-            "description": "Количество записей.",
+            "name": "start",
             "in": "query",
             "required": false,
             "type": "string",
-            "format": "uint64"
+            "format": "int64"
           },
           {
-            "name": "start",
-            "description": "Смещение записей.",
+            "name": "limit",
             "in": "query",
             "required": false,
             "type": "string",
-            "format": "uint64"
+            "format": "int64"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -67,13 +77,12 @@
         ]
       },
       "post": {
-        "summary": "Создать запись",
-        "operationId": "PersonService_CreatePerson",
+        "operationId": "PersonService_Create",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcPerson"
+              "$ref": "#/definitions/rpcPersonResponse"
             }
           },
           "404": {
@@ -96,7 +105,53 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/rpcPersonData"
+              "$ref": "#/definitions/rpcPersonRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PersonService"
+        ]
+      }
+    },
+    "/api/v1/persons/{data.id}": {
+      "put": {
+        "operationId": "PersonService_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/rpcPersonResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "data.id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rpcPersonRequest"
             }
           }
         ],
@@ -107,13 +162,12 @@
     },
     "/api/v1/persons/{id}": {
       "get": {
-        "summary": "Получить запись по уникальному идентификатору",
-        "operationId": "PersonService_GetPerson",
+        "operationId": "PersonService_Retrieve",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcPerson"
+              "$ref": "#/definitions/rpcPersonResponse"
             }
           },
           "404": {
@@ -144,13 +198,12 @@
         ]
       },
       "delete": {
-        "summary": "Удалить запись по уникальному идентификатору",
-        "operationId": "PersonService_DestroyPerson",
+        "operationId": "PersonService_Destroy",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcPerson"
+              "$ref": "#/definitions/rpcStatusResponse"
             }
           },
           "404": {
@@ -174,51 +227,6 @@
             "required": true,
             "type": "string",
             "format": "uint64"
-          }
-        ],
-        "tags": [
-          "PersonService"
-        ]
-      },
-      "put": {
-        "summary": "Обновить запись по уникальному идентификатору",
-        "operationId": "PersonService_UpdatePerson",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/rpcPerson"
-            }
-          },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "uint64"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/rpcPerson"
-            }
           }
         ],
         "tags": [
@@ -228,13 +236,12 @@
     },
     "/api/v1/positions": {
       "get": {
-        "summary": "Получить список записей",
-        "operationId": "PositionService_GetPositionList",
+        "operationId": "PositionService_Read",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcPositionList"
+              "$ref": "#/definitions/rpcListPositionResponse"
             }
           },
           "404": {
@@ -253,20 +260,31 @@
         },
         "parameters": [
           {
-            "name": "limit",
-            "description": "Количество записей.",
+            "name": "start",
             "in": "query",
             "required": false,
             "type": "string",
-            "format": "uint64"
+            "format": "int64"
           },
           {
-            "name": "start",
-            "description": "Смещение записей.",
+            "name": "limit",
             "in": "query",
             "required": false,
             "type": "string",
-            "format": "uint64"
+            "format": "int64"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -274,13 +292,12 @@
         ]
       },
       "post": {
-        "summary": "Создать запись",
-        "operationId": "PositionService_CreatePosition",
+        "operationId": "PositionService_Create",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcPosition"
+              "$ref": "#/definitions/rpcPositionResponse"
             }
           },
           "404": {
@@ -303,7 +320,53 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/rpcPositionData"
+              "$ref": "#/definitions/rpcPositionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PositionService"
+        ]
+      }
+    },
+    "/api/v1/positions/{data.id}": {
+      "put": {
+        "operationId": "PositionService_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/rpcPositionResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "data.id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rpcPositionRequest"
             }
           }
         ],
@@ -314,13 +377,12 @@
     },
     "/api/v1/positions/{id}": {
       "get": {
-        "summary": "Получить запись по уникальному идентификатору",
-        "operationId": "PositionService_GetPosition",
+        "operationId": "PositionService_Retrieve",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcPosition"
+              "$ref": "#/definitions/rpcPositionResponse"
             }
           },
           "404": {
@@ -340,7 +402,6 @@
         "parameters": [
           {
             "name": "id",
-            "description": "Уникальный идентификатор записи",
             "in": "path",
             "required": true,
             "type": "string",
@@ -352,13 +413,12 @@
         ]
       },
       "delete": {
-        "summary": "Удалить запись по уникальному идентификатору",
-        "operationId": "PositionService_DestroyPosition",
+        "operationId": "PositionService_Destroy",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcPosition"
+              "$ref": "#/definitions/rpcStatusResponse"
             }
           },
           "404": {
@@ -378,57 +438,10 @@
         "parameters": [
           {
             "name": "id",
-            "description": "Уникальный идентификатор записи",
             "in": "path",
             "required": true,
             "type": "string",
             "format": "uint64"
-          }
-        ],
-        "tags": [
-          "PositionService"
-        ]
-      },
-      "put": {
-        "summary": "Обновить запись по уникальному идентификатору",
-        "operationId": "PositionService_UpdatePosition",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/rpcPosition"
-            }
-          },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "Уникальный идентификатор записи",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "uint64"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/rpcPosition"
-            }
           }
         ],
         "tags": [
@@ -438,6 +451,31 @@
     }
   },
   "definitions": {
+    "GroupFunction": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "COUNT",
+        "MIN",
+        "MAX",
+        "SUM",
+        "AVG"
+      ],
+      "default": "UNKNOWN"
+    },
+    "SorterDirection": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "ASCENDING",
+        "ASCENDING_NULLS_FIRST",
+        "ASCENDING_NULLS_LAST",
+        "DESCENDING",
+        "DESCENDING_NULLS_FIRST",
+        "DESCENDING_NULLS_LAST"
+      ],
+      "default": "UNKNOWN"
+    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -453,6 +491,181 @@
       },
       "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := ptypes.MarshalAny(foo)\n     ...\n     foo := \u0026pb.Foo{}\n     if err := ptypes.UnmarshalAny(any, foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
     },
+    "rpcBooleanValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "rpcDoubleValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "rpcDoubleValueMap": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      }
+    },
+    "rpcFilter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "operation": {
+          "$ref": "#/definitions/rpcFilterOperation"
+        },
+        "booleanValue": {
+          "$ref": "#/definitions/rpcBooleanValue"
+        },
+        "integerValue": {
+          "$ref": "#/definitions/rpcIntegerValue"
+        },
+        "integerValueMap": {
+          "$ref": "#/definitions/rpcIntegerValueMap"
+        },
+        "doubleValue": {
+          "$ref": "#/definitions/rpcDoubleValue"
+        },
+        "doubleValueMap": {
+          "$ref": "#/definitions/rpcDoubleValueMap"
+        },
+        "stringValue": {
+          "$ref": "#/definitions/rpcStringValue"
+        },
+        "stringValueMap": {
+          "$ref": "#/definitions/rpcStringValueMap"
+        },
+        "timestampValue": {
+          "$ref": "#/definitions/rpcTimestampValue"
+        },
+        "timestampValueMap": {
+          "$ref": "#/definitions/rpcTimestampValueMap"
+        }
+      }
+    },
+    "rpcFilterOperation": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "EQ",
+        "NEQ",
+        "GT",
+        "GTE",
+        "LT",
+        "LTE",
+        "ISN",
+        "ISNN",
+        "IN",
+        "INN",
+        "CNS",
+        "CNSN",
+        "SSW",
+        "SSWN",
+        "ESW",
+        "ESWN",
+        "BWN",
+        "BWNN"
+      ],
+      "default": "UNKNOWN",
+      "title": "- EQ: equals\n - NEQ: not equals to\n - GT: greater than\n - GTE: greater than or equal to\n - LT: less than\n - LTE: less than or equal to\n - ISN: is null\n - ISNN: is not null\n - IN: in\n - INN: not in\n - CNS: contains\n - CNSN: not contains\n - SSW: starts with\n - SSWN: not starts with\n - ESW: ends with\n - ESWN: not ends with\n - BWN: between\n - BWNN: not between"
+    },
+    "rpcGroup": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "function": {
+          "$ref": "#/definitions/GroupFunction"
+        },
+        "booleanValue": {
+          "$ref": "#/definitions/rpcBooleanValue"
+        },
+        "integerValue": {
+          "$ref": "#/definitions/rpcIntegerValue"
+        },
+        "integerValueMap": {
+          "$ref": "#/definitions/rpcIntegerValueMap"
+        },
+        "doubleValue": {
+          "$ref": "#/definitions/rpcDoubleValue"
+        },
+        "doubleValueMap": {
+          "$ref": "#/definitions/rpcDoubleValueMap"
+        },
+        "stringValue": {
+          "$ref": "#/definitions/rpcStringValue"
+        },
+        "stringValueMap": {
+          "$ref": "#/definitions/rpcStringValueMap"
+        },
+        "timestampValue": {
+          "$ref": "#/definitions/rpcTimestampValue"
+        },
+        "timestampValueMap": {
+          "$ref": "#/definitions/rpcTimestampValueMap"
+        }
+      }
+    },
+    "rpcIntegerValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "rpcIntegerValueMap": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "rpcListPersonResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/rpcPerson"
+          }
+        }
+      }
+    },
+    "rpcListPositionResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/rpcPosition"
+          }
+        }
+      }
+    },
     "rpcPerson": {
       "type": "object",
       "properties": {
@@ -460,91 +673,182 @@
           "type": "string",
           "format": "uint64"
         },
-        "dateCreated": {
+        "priority": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "gid": {
+          "type": "string"
+        },
+        "date_created": {
           "type": "string",
           "format": "date-time"
         },
-        "dateUpdated": {
+        "date_updated": {
           "type": "string",
           "format": "date-time"
         },
-        "lastName": {
+        "date_removed": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "removed": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "date_enabled": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "enabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "last_name": {
           "type": "string"
         },
-        "firstName": {
+        "first_name": {
           "type": "string"
         },
-        "middleName": {
+        "middle_name": {
           "type": "string"
         }
       }
     },
-    "rpcPersonData": {
-      "type": "object",
-      "properties": {
-        "lastName": {
-          "type": "string",
-          "title": "Название записи"
-        },
-        "firstName": {
-          "type": "string"
-        },
-        "middleName": {
-          "type": "string"
-        }
-      },
-      "title": "Данные позиции"
-    },
-    "rpcPersonList": {
+    "rpcPersonRequest": {
       "type": "object",
       "properties": {
         "data": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/rpcPerson"
-          },
-          "title": "Список записей"
+          "$ref": "#/definitions/rpcPerson"
         }
-      },
-      "title": "Ответ с списком записей"
+      }
+    },
+    "rpcPersonResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/rpcPerson"
+        }
+      }
     },
     "rpcPosition": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string",
-          "format": "uint64",
-          "title": "Уникальный идентификатор записи"
+          "format": "uint64"
+        },
+        "priority": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "gid": {
+          "type": "string"
+        },
+        "date_created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "date_updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "date_removed": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "removed": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "date_enabled": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "enabled": {
+          "type": "boolean",
+          "format": "boolean"
         },
         "name": {
-          "type": "string",
-          "title": "Название записи"
+          "type": "string"
         }
-      },
-      "title": "Позиция"
+      }
     },
-    "rpcPositionData": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "title": "Название записи"
-        }
-      },
-      "title": "Данные позиции"
-    },
-    "rpcPositionList": {
+    "rpcPositionRequest": {
       "type": "object",
       "properties": {
         "data": {
+          "$ref": "#/definitions/rpcPosition"
+        }
+      }
+    },
+    "rpcPositionResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/rpcPosition"
+        }
+      }
+    },
+    "rpcSorter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "direction": {
+          "$ref": "#/definitions/SorterDirection"
+        }
+      }
+    },
+    "rpcStatusResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "rpcStringValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "rpcStringValueMap": {
+      "type": "object",
+      "properties": {
+        "value": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/rpcPosition"
-          },
-          "title": "Список записей"
+            "type": "string"
+          }
         }
-      },
-      "title": "Ответ с списком записей"
+      }
+    },
+    "rpcTimestampValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "rpcTimestampValueMap": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
     },
     "runtimeError": {
       "type": "object",

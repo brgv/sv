@@ -9,6 +9,7 @@ package rpc
 import (
 	context "context"
 	proto "github.com/golang/protobuf/proto"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -30,120 +31,27 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
-// Запрос позиции
-type PositionId struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Уникальный идентификатор записи
-	Id uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-}
-
-func (x *PositionId) Reset() {
-	*x = PositionId{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_Position_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PositionId) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PositionId) ProtoMessage() {}
-
-func (x *PositionId) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_Position_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PositionId.ProtoReflect.Descriptor instead.
-func (*PositionId) Descriptor() ([]byte, []int) {
-	return file_proto_Position_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *PositionId) GetId() uint64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-// Данные позиции
-type PositionData struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Название записи
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-}
-
-func (x *PositionData) Reset() {
-	*x = PositionData{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_Position_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PositionData) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PositionData) ProtoMessage() {}
-
-func (x *PositionData) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_Position_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PositionData.ProtoReflect.Descriptor instead.
-func (*PositionData) Descriptor() ([]byte, []int) {
-	return file_proto_Position_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *PositionData) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-// Позиция
 type Position struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Уникальный идентификатор записи
-	Id uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	// Название записи
-	Name string `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`
+	Id          uint64               `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Priority    uint64               `protobuf:"varint,2,opt,name=priority,proto3" json:"priority,omitempty"`
+	Gid         string               `protobuf:"bytes,3,opt,name=gid,proto3" json:"gid,omitempty"`
+	DateCreated *timestamp.Timestamp `protobuf:"bytes,4,opt,name=date_created,proto3" json:"date_created,omitempty"`
+	DateUpdated *timestamp.Timestamp `protobuf:"bytes,5,opt,name=date_updated,proto3" json:"date_updated,omitempty"`
+	DateRemoved *timestamp.Timestamp `protobuf:"bytes,6,opt,name=date_removed,proto3" json:"date_removed,omitempty"`
+	Removed     bool                 `protobuf:"varint,7,opt,name=removed,proto3" json:"removed,omitempty"`
+	DateEnabled *timestamp.Timestamp `protobuf:"bytes,8,opt,name=date_enabled,proto3" json:"date_enabled,omitempty"`
+	Enabled     bool                 `protobuf:"varint,9,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Name        string               `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`
 }
 
 func (x *Position) Reset() {
 	*x = Position{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_Position_proto_msgTypes[2]
+		mi := &file_proto_Position_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -156,7 +64,7 @@ func (x *Position) String() string {
 func (*Position) ProtoMessage() {}
 
 func (x *Position) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_Position_proto_msgTypes[2]
+	mi := &file_proto_Position_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -169,7 +77,7 @@ func (x *Position) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Position.ProtoReflect.Descriptor instead.
 func (*Position) Descriptor() ([]byte, []int) {
-	return file_proto_Position_proto_rawDescGZIP(), []int{2}
+	return file_proto_Position_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Position) GetId() uint64 {
@@ -179,6 +87,62 @@ func (x *Position) GetId() uint64 {
 	return 0
 }
 
+func (x *Position) GetPriority() uint64 {
+	if x != nil {
+		return x.Priority
+	}
+	return 0
+}
+
+func (x *Position) GetGid() string {
+	if x != nil {
+		return x.Gid
+	}
+	return ""
+}
+
+func (x *Position) GetDateCreated() *timestamp.Timestamp {
+	if x != nil {
+		return x.DateCreated
+	}
+	return nil
+}
+
+func (x *Position) GetDateUpdated() *timestamp.Timestamp {
+	if x != nil {
+		return x.DateUpdated
+	}
+	return nil
+}
+
+func (x *Position) GetDateRemoved() *timestamp.Timestamp {
+	if x != nil {
+		return x.DateRemoved
+	}
+	return nil
+}
+
+func (x *Position) GetRemoved() bool {
+	if x != nil {
+		return x.Removed
+	}
+	return false
+}
+
+func (x *Position) GetDateEnabled() *timestamp.Timestamp {
+	if x != nil {
+		return x.DateEnabled
+	}
+	return nil
+}
+
+func (x *Position) GetEnabled() bool {
+	if x != nil {
+		return x.Enabled
+	}
+	return false
+}
+
 func (x *Position) GetName() string {
 	if x != nil {
 		return x.Name
@@ -186,20 +150,110 @@ func (x *Position) GetName() string {
 	return ""
 }
 
-// Запрос списка записей
-type PositionListFilter struct {
+type PositionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Количество записей
-	Limit uint64 `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
-	// Смещение записей
-	Start uint64 `protobuf:"varint,2,opt,name=start,proto3" json:"start,omitempty"`
+	Data *Position `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 }
 
-func (x *PositionListFilter) Reset() {
-	*x = PositionListFilter{}
+func (x *PositionRequest) Reset() {
+	*x = PositionRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_Position_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PositionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PositionRequest) ProtoMessage() {}
+
+func (x *PositionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_Position_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PositionRequest.ProtoReflect.Descriptor instead.
+func (*PositionRequest) Descriptor() ([]byte, []int) {
+	return file_proto_Position_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *PositionRequest) GetData() *Position {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type PositionResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data *Position `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+}
+
+func (x *PositionResponse) Reset() {
+	*x = PositionResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_Position_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PositionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PositionResponse) ProtoMessage() {}
+
+func (x *PositionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_Position_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PositionResponse.ProtoReflect.Descriptor instead.
+func (*PositionResponse) Descriptor() ([]byte, []int) {
+	return file_proto_Position_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *PositionResponse) GetData() *Position {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type ListPositionResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data []*Position `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+}
+
+func (x *ListPositionResponse) Reset() {
+	*x = ListPositionResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_proto_Position_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -207,13 +261,13 @@ func (x *PositionListFilter) Reset() {
 	}
 }
 
-func (x *PositionListFilter) String() string {
+func (x *ListPositionResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PositionListFilter) ProtoMessage() {}
+func (*ListPositionResponse) ProtoMessage() {}
 
-func (x *PositionListFilter) ProtoReflect() protoreflect.Message {
+func (x *ListPositionResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_Position_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -225,68 +279,12 @@ func (x *PositionListFilter) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PositionListFilter.ProtoReflect.Descriptor instead.
-func (*PositionListFilter) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListPositionResponse.ProtoReflect.Descriptor instead.
+func (*ListPositionResponse) Descriptor() ([]byte, []int) {
 	return file_proto_Position_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *PositionListFilter) GetLimit() uint64 {
-	if x != nil {
-		return x.Limit
-	}
-	return 0
-}
-
-func (x *PositionListFilter) GetStart() uint64 {
-	if x != nil {
-		return x.Start
-	}
-	return 0
-}
-
-// Ответ с списком записей
-type PositionList struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Список записей
-	Data []*Position `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
-}
-
-func (x *PositionList) Reset() {
-	*x = PositionList{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_Position_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PositionList) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PositionList) ProtoMessage() {}
-
-func (x *PositionList) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_Position_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PositionList.ProtoReflect.Descriptor instead.
-func (*PositionList) Descriptor() ([]byte, []int) {
-	return file_proto_Position_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *PositionList) GetData() []*Position {
+func (x *ListPositionResponse) GetData() []*Position {
 	if x != nil {
 		return x.Data
 	}
@@ -297,53 +295,80 @@ var File_proto_Position_proto protoreflect.FileDescriptor
 
 var file_proto_Position_proto_rawDesc = []byte{
 	0x0a, 0x14, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x03, 0x72, 0x70, 0x63, 0x1a, 0x1c, 0x67, 0x6f, 0x6f,
-	0x67, 0x6c, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x1c, 0x0a, 0x0a, 0x50, 0x6f, 0x73,
-	0x69, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x22, 0x22, 0x0a, 0x0c, 0x50, 0x6f, 0x73, 0x69, 0x74,
-	0x69, 0x6f, 0x6e, 0x44, 0x61, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x2e, 0x0a, 0x08, 0x50,
-	0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18,
-	0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x40, 0x0a, 0x12, 0x50,
-	0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x69, 0x73, 0x74, 0x46, 0x69, 0x6c, 0x74, 0x65,
-	0x72, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04,
-	0x52, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x72, 0x74,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x73, 0x74, 0x61, 0x72, 0x74, 0x22, 0x31, 0x0a,
-	0x0c, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x21, 0x0a,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x03, 0x72, 0x70, 0x63, 0x1a, 0x1f, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d,
+	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1c, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x13, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x2f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
+	0x14, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x90, 0x03, 0x0a, 0x08, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69,
+	0x6f, 0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02,
+	0x69, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x70, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x12, 0x10,
+	0x0a, 0x03, 0x67, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x67, 0x69, 0x64,
+	0x12, 0x3e, 0x0a, 0x0c, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
+	0x6d, 0x70, 0x52, 0x0c, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64,
+	0x12, 0x3e, 0x0a, 0x0c, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64,
+	0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
+	0x6d, 0x70, 0x52, 0x0c, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64,
+	0x12, 0x3e, 0x0a, 0x0c, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x64,
+	0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
+	0x6d, 0x70, 0x52, 0x0c, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x64,
+	0x12, 0x18, 0x0a, 0x07, 0x72, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x64, 0x18, 0x07, 0x20, 0x01, 0x28,
+	0x08, 0x52, 0x07, 0x72, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x64, 0x12, 0x3e, 0x0a, 0x0c, 0x64, 0x61,
+	0x74, 0x65, 0x5f, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x64, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
+	0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0c, 0x64, 0x61,
+	0x74, 0x65, 0x5f, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x65, 0x6e,
+	0x61, 0x62, 0x6c, 0x65, 0x64, 0x18, 0x09, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x65, 0x6e, 0x61,
+	0x62, 0x6c, 0x65, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x0a, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x34, 0x0a, 0x0f, 0x50, 0x6f, 0x73, 0x69,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x21, 0x0a, 0x04, 0x64,
+	0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x72, 0x70, 0x63, 0x2e,
+	0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0x35,
+	0x0a, 0x10, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x21, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x0d, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52,
+	0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0x39, 0x0a, 0x14, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x6f, 0x73,
+	0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x21, 0x0a,
 	0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x72, 0x70,
 	0x63, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61,
-	0x32, 0xb2, 0x03, 0x0a, 0x0f, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x12, 0x4d, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x50, 0x6f, 0x73, 0x69, 0x74,
-	0x69, 0x6f, 0x6e, 0x12, 0x0f, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69,
-	0x6f, 0x6e, 0x49, 0x64, 0x1a, 0x0d, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74,
-	0x69, 0x6f, 0x6e, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x12, 0x16, 0x2f, 0x61, 0x70,
-	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x7b,
-	0x69, 0x64, 0x7d, 0x12, 0x51, 0x0a, 0x0f, 0x44, 0x65, 0x73, 0x74, 0x72, 0x6f, 0x79, 0x50, 0x6f,
-	0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0f, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x50, 0x6f, 0x73,
-	0x69, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x1a, 0x0d, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x50, 0x6f,
-	0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x2a, 0x16,
-	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e,
-	0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x50, 0x0a, 0x0e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
-	0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x11, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x50,
-	0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x44, 0x61, 0x74, 0x61, 0x1a, 0x0d, 0x2e, 0x72, 0x70,
-	0x63, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x1c, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x16, 0x22, 0x11, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x6f, 0x73, 0x69,
-	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x3a, 0x01, 0x2a, 0x12, 0x51, 0x0a, 0x0e, 0x55, 0x70, 0x64, 0x61,
-	0x74, 0x65, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0d, 0x2e, 0x72, 0x70, 0x63,
-	0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x1a, 0x0d, 0x2e, 0x72, 0x70, 0x63, 0x2e,
-	0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x21, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1b,
-	0x1a, 0x16, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69,
-	0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x3a, 0x01, 0x2a, 0x12, 0x58, 0x0a, 0x0f, 0x47,
-	0x65, 0x74, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x17,
-	0x2e, 0x72, 0x70, 0x63, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x69, 0x73,
-	0x74, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x1a, 0x11, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x50, 0x6f,
-	0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x69, 0x73, 0x74, 0x22, 0x19, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x13, 0x12, 0x11, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x6f, 0x73, 0x69,
-	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x1c, 0x5a, 0x1a, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
-	0x63, 0x6f, 0x6d, 0x2f, 0x62, 0x72, 0x67, 0x76, 0x2f, 0x73, 0x76, 0x2f, 0x67, 0x65, 0x6e, 0x2f,
-	0x72, 0x70, 0x63, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x32, 0xc4, 0x03, 0x0a, 0x0f, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x12, 0x53, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12, 0x14,
+	0x2e, 0x72, 0x70, 0x63, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74,
+	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1c, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x16, 0x22, 0x11, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x6f, 0x73,
+	0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x3a, 0x01, 0x2a, 0x12, 0x5d, 0x0a, 0x06, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x12, 0x14, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x72, 0x70, 0x63, 0x2e,
+	0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x1a, 0x1b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76,
+	0x31, 0x2f, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x64, 0x61, 0x74,
+	0x61, 0x2e, 0x69, 0x64, 0x7d, 0x3a, 0x01, 0x2a, 0x12, 0x54, 0x0a, 0x07, 0x44, 0x65, 0x73, 0x74,
+	0x72, 0x6f, 0x79, 0x12, 0x14, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69,
+	0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x13, 0x2e, 0x72, 0x70, 0x63, 0x2e,
+	0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x2a, 0x16, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f,
+	0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x57,
+	0x0a, 0x08, 0x52, 0x65, 0x74, 0x72, 0x69, 0x65, 0x76, 0x65, 0x12, 0x14, 0x2e, 0x72, 0x70, 0x63,
+	0x2e, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x15, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x12,
+	0x16, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f,
+	0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x4e, 0x0a, 0x04, 0x52, 0x65, 0x61, 0x64, 0x12,
+	0x10, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x19, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x6f, 0x73, 0x69,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x19, 0x82, 0xd3,
+	0xe4, 0x93, 0x02, 0x13, 0x12, 0x11, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x6f,
+	0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x1c, 0x5a, 0x1a, 0x67, 0x69, 0x74, 0x68, 0x75,
+	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x62, 0x72, 0x67, 0x76, 0x2f, 0x73, 0x76, 0x2f, 0x67, 0x65,
+	0x6e, 0x2f, 0x72, 0x70, 0x63, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -358,31 +383,40 @@ func file_proto_Position_proto_rawDescGZIP() []byte {
 	return file_proto_Position_proto_rawDescData
 }
 
-var file_proto_Position_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_proto_Position_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_proto_Position_proto_goTypes = []interface{}{
-	(*PositionId)(nil),         // 0: rpc.PositionId
-	(*PositionData)(nil),       // 1: rpc.PositionData
-	(*Position)(nil),           // 2: rpc.Position
-	(*PositionListFilter)(nil), // 3: rpc.PositionListFilter
-	(*PositionList)(nil),       // 4: rpc.PositionList
+	(*Position)(nil),             // 0: rpc.Position
+	(*PositionRequest)(nil),      // 1: rpc.PositionRequest
+	(*PositionResponse)(nil),     // 2: rpc.PositionResponse
+	(*ListPositionResponse)(nil), // 3: rpc.ListPositionResponse
+	(*timestamp.Timestamp)(nil),  // 4: google.protobuf.Timestamp
+	(*IdentityRequest)(nil),      // 5: rpc.IdentityRequest
+	(*ListRequest)(nil),          // 6: rpc.ListRequest
+	(*StatusResponse)(nil),       // 7: rpc.StatusResponse
 }
 var file_proto_Position_proto_depIdxs = []int32{
-	2, // 0: rpc.PositionList.data:type_name -> rpc.Position
-	0, // 1: rpc.PositionService.GetPosition:input_type -> rpc.PositionId
-	0, // 2: rpc.PositionService.DestroyPosition:input_type -> rpc.PositionId
-	1, // 3: rpc.PositionService.CreatePosition:input_type -> rpc.PositionData
-	2, // 4: rpc.PositionService.UpdatePosition:input_type -> rpc.Position
-	3, // 5: rpc.PositionService.GetPositionList:input_type -> rpc.PositionListFilter
-	2, // 6: rpc.PositionService.GetPosition:output_type -> rpc.Position
-	2, // 7: rpc.PositionService.DestroyPosition:output_type -> rpc.Position
-	2, // 8: rpc.PositionService.CreatePosition:output_type -> rpc.Position
-	2, // 9: rpc.PositionService.UpdatePosition:output_type -> rpc.Position
-	4, // 10: rpc.PositionService.GetPositionList:output_type -> rpc.PositionList
-	6, // [6:11] is the sub-list for method output_type
-	1, // [1:6] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	4,  // 0: rpc.Position.date_created:type_name -> google.protobuf.Timestamp
+	4,  // 1: rpc.Position.date_updated:type_name -> google.protobuf.Timestamp
+	4,  // 2: rpc.Position.date_removed:type_name -> google.protobuf.Timestamp
+	4,  // 3: rpc.Position.date_enabled:type_name -> google.protobuf.Timestamp
+	0,  // 4: rpc.PositionRequest.data:type_name -> rpc.Position
+	0,  // 5: rpc.PositionResponse.data:type_name -> rpc.Position
+	0,  // 6: rpc.ListPositionResponse.data:type_name -> rpc.Position
+	1,  // 7: rpc.PositionService.Create:input_type -> rpc.PositionRequest
+	1,  // 8: rpc.PositionService.Update:input_type -> rpc.PositionRequest
+	5,  // 9: rpc.PositionService.Destroy:input_type -> rpc.IdentityRequest
+	5,  // 10: rpc.PositionService.Retrieve:input_type -> rpc.IdentityRequest
+	6,  // 11: rpc.PositionService.Read:input_type -> rpc.ListRequest
+	2,  // 12: rpc.PositionService.Create:output_type -> rpc.PositionResponse
+	2,  // 13: rpc.PositionService.Update:output_type -> rpc.PositionResponse
+	7,  // 14: rpc.PositionService.Destroy:output_type -> rpc.StatusResponse
+	2,  // 15: rpc.PositionService.Retrieve:output_type -> rpc.PositionResponse
+	3,  // 16: rpc.PositionService.Read:output_type -> rpc.ListPositionResponse
+	12, // [12:17] is the sub-list for method output_type
+	7,  // [7:12] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_proto_Position_proto_init() }
@@ -390,32 +424,10 @@ func file_proto_Position_proto_init() {
 	if File_proto_Position_proto != nil {
 		return
 	}
+	file_proto_request_proto_init()
+	file_proto_response_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_proto_Position_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PositionId); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_Position_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PositionData); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_Position_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Position); i {
 			case 0:
 				return &v.state
@@ -427,8 +439,8 @@ func file_proto_Position_proto_init() {
 				return nil
 			}
 		}
-		file_proto_Position_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PositionListFilter); i {
+		file_proto_Position_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PositionRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -439,8 +451,20 @@ func file_proto_Position_proto_init() {
 				return nil
 			}
 		}
-		file_proto_Position_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PositionList); i {
+		file_proto_Position_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PositionResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_Position_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListPositionResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -458,7 +482,7 @@ func file_proto_Position_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_proto_Position_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -484,16 +508,11 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type PositionServiceClient interface {
-	// Получить запись по уникальному идентификатору
-	GetPosition(ctx context.Context, in *PositionId, opts ...grpc.CallOption) (*Position, error)
-	// Удалить запись по уникальному идентификатору
-	DestroyPosition(ctx context.Context, in *PositionId, opts ...grpc.CallOption) (*Position, error)
-	// Создать запись
-	CreatePosition(ctx context.Context, in *PositionData, opts ...grpc.CallOption) (*Position, error)
-	// Обновить запись по уникальному идентификатору
-	UpdatePosition(ctx context.Context, in *Position, opts ...grpc.CallOption) (*Position, error)
-	// Получить список записей
-	GetPositionList(ctx context.Context, in *PositionListFilter, opts ...grpc.CallOption) (*PositionList, error)
+	Create(ctx context.Context, in *PositionRequest, opts ...grpc.CallOption) (*PositionResponse, error)
+	Update(ctx context.Context, in *PositionRequest, opts ...grpc.CallOption) (*PositionResponse, error)
+	Destroy(ctx context.Context, in *IdentityRequest, opts ...grpc.CallOption) (*StatusResponse, error)
+	Retrieve(ctx context.Context, in *IdentityRequest, opts ...grpc.CallOption) (*PositionResponse, error)
+	Read(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListPositionResponse, error)
 }
 
 type positionServiceClient struct {
@@ -504,45 +523,45 @@ func NewPositionServiceClient(cc grpc.ClientConnInterface) PositionServiceClient
 	return &positionServiceClient{cc}
 }
 
-func (c *positionServiceClient) GetPosition(ctx context.Context, in *PositionId, opts ...grpc.CallOption) (*Position, error) {
-	out := new(Position)
-	err := c.cc.Invoke(ctx, "/rpc.PositionService/GetPosition", in, out, opts...)
+func (c *positionServiceClient) Create(ctx context.Context, in *PositionRequest, opts ...grpc.CallOption) (*PositionResponse, error) {
+	out := new(PositionResponse)
+	err := c.cc.Invoke(ctx, "/rpc.PositionService/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *positionServiceClient) DestroyPosition(ctx context.Context, in *PositionId, opts ...grpc.CallOption) (*Position, error) {
-	out := new(Position)
-	err := c.cc.Invoke(ctx, "/rpc.PositionService/DestroyPosition", in, out, opts...)
+func (c *positionServiceClient) Update(ctx context.Context, in *PositionRequest, opts ...grpc.CallOption) (*PositionResponse, error) {
+	out := new(PositionResponse)
+	err := c.cc.Invoke(ctx, "/rpc.PositionService/Update", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *positionServiceClient) CreatePosition(ctx context.Context, in *PositionData, opts ...grpc.CallOption) (*Position, error) {
-	out := new(Position)
-	err := c.cc.Invoke(ctx, "/rpc.PositionService/CreatePosition", in, out, opts...)
+func (c *positionServiceClient) Destroy(ctx context.Context, in *IdentityRequest, opts ...grpc.CallOption) (*StatusResponse, error) {
+	out := new(StatusResponse)
+	err := c.cc.Invoke(ctx, "/rpc.PositionService/Destroy", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *positionServiceClient) UpdatePosition(ctx context.Context, in *Position, opts ...grpc.CallOption) (*Position, error) {
-	out := new(Position)
-	err := c.cc.Invoke(ctx, "/rpc.PositionService/UpdatePosition", in, out, opts...)
+func (c *positionServiceClient) Retrieve(ctx context.Context, in *IdentityRequest, opts ...grpc.CallOption) (*PositionResponse, error) {
+	out := new(PositionResponse)
+	err := c.cc.Invoke(ctx, "/rpc.PositionService/Retrieve", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *positionServiceClient) GetPositionList(ctx context.Context, in *PositionListFilter, opts ...grpc.CallOption) (*PositionList, error) {
-	out := new(PositionList)
-	err := c.cc.Invoke(ctx, "/rpc.PositionService/GetPositionList", in, out, opts...)
+func (c *positionServiceClient) Read(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListPositionResponse, error) {
+	out := new(ListPositionResponse)
+	err := c.cc.Invoke(ctx, "/rpc.PositionService/Read", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -551,128 +570,123 @@ func (c *positionServiceClient) GetPositionList(ctx context.Context, in *Positio
 
 // PositionServiceServer is the server API for PositionService service.
 type PositionServiceServer interface {
-	// Получить запись по уникальному идентификатору
-	GetPosition(context.Context, *PositionId) (*Position, error)
-	// Удалить запись по уникальному идентификатору
-	DestroyPosition(context.Context, *PositionId) (*Position, error)
-	// Создать запись
-	CreatePosition(context.Context, *PositionData) (*Position, error)
-	// Обновить запись по уникальному идентификатору
-	UpdatePosition(context.Context, *Position) (*Position, error)
-	// Получить список записей
-	GetPositionList(context.Context, *PositionListFilter) (*PositionList, error)
+	Create(context.Context, *PositionRequest) (*PositionResponse, error)
+	Update(context.Context, *PositionRequest) (*PositionResponse, error)
+	Destroy(context.Context, *IdentityRequest) (*StatusResponse, error)
+	Retrieve(context.Context, *IdentityRequest) (*PositionResponse, error)
+	Read(context.Context, *ListRequest) (*ListPositionResponse, error)
 }
 
 // UnimplementedPositionServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedPositionServiceServer struct {
 }
 
-func (*UnimplementedPositionServiceServer) GetPosition(context.Context, *PositionId) (*Position, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPosition not implemented")
+func (*UnimplementedPositionServiceServer) Create(context.Context, *PositionRequest) (*PositionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (*UnimplementedPositionServiceServer) DestroyPosition(context.Context, *PositionId) (*Position, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DestroyPosition not implemented")
+func (*UnimplementedPositionServiceServer) Update(context.Context, *PositionRequest) (*PositionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (*UnimplementedPositionServiceServer) CreatePosition(context.Context, *PositionData) (*Position, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreatePosition not implemented")
+func (*UnimplementedPositionServiceServer) Destroy(context.Context, *IdentityRequest) (*StatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Destroy not implemented")
 }
-func (*UnimplementedPositionServiceServer) UpdatePosition(context.Context, *Position) (*Position, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePosition not implemented")
+func (*UnimplementedPositionServiceServer) Retrieve(context.Context, *IdentityRequest) (*PositionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Retrieve not implemented")
 }
-func (*UnimplementedPositionServiceServer) GetPositionList(context.Context, *PositionListFilter) (*PositionList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPositionList not implemented")
+func (*UnimplementedPositionServiceServer) Read(context.Context, *ListRequest) (*ListPositionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Read not implemented")
 }
 
 func RegisterPositionServiceServer(s *grpc.Server, srv PositionServiceServer) {
 	s.RegisterService(&_PositionService_serviceDesc, srv)
 }
 
-func _PositionService_GetPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PositionId)
+func _PositionService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PositionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PositionServiceServer).GetPosition(ctx, in)
+		return srv.(PositionServiceServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rpc.PositionService/GetPosition",
+		FullMethod: "/rpc.PositionService/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).GetPosition(ctx, req.(*PositionId))
+		return srv.(PositionServiceServer).Create(ctx, req.(*PositionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PositionService_DestroyPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PositionId)
+func _PositionService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PositionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PositionServiceServer).DestroyPosition(ctx, in)
+		return srv.(PositionServiceServer).Update(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rpc.PositionService/DestroyPosition",
+		FullMethod: "/rpc.PositionService/Update",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).DestroyPosition(ctx, req.(*PositionId))
+		return srv.(PositionServiceServer).Update(ctx, req.(*PositionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PositionService_CreatePosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PositionData)
+func _PositionService_Destroy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdentityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PositionServiceServer).CreatePosition(ctx, in)
+		return srv.(PositionServiceServer).Destroy(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rpc.PositionService/CreatePosition",
+		FullMethod: "/rpc.PositionService/Destroy",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).CreatePosition(ctx, req.(*PositionData))
+		return srv.(PositionServiceServer).Destroy(ctx, req.(*IdentityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PositionService_UpdatePosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Position)
+func _PositionService_Retrieve_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdentityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PositionServiceServer).UpdatePosition(ctx, in)
+		return srv.(PositionServiceServer).Retrieve(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rpc.PositionService/UpdatePosition",
+		FullMethod: "/rpc.PositionService/Retrieve",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).UpdatePosition(ctx, req.(*Position))
+		return srv.(PositionServiceServer).Retrieve(ctx, req.(*IdentityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PositionService_GetPositionList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PositionListFilter)
+func _PositionService_Read_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PositionServiceServer).GetPositionList(ctx, in)
+		return srv.(PositionServiceServer).Read(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rpc.PositionService/GetPositionList",
+		FullMethod: "/rpc.PositionService/Read",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).GetPositionList(ctx, req.(*PositionListFilter))
+		return srv.(PositionServiceServer).Read(ctx, req.(*ListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -682,24 +696,24 @@ var _PositionService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*PositionServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetPosition",
-			Handler:    _PositionService_GetPosition_Handler,
+			MethodName: "Create",
+			Handler:    _PositionService_Create_Handler,
 		},
 		{
-			MethodName: "DestroyPosition",
-			Handler:    _PositionService_DestroyPosition_Handler,
+			MethodName: "Update",
+			Handler:    _PositionService_Update_Handler,
 		},
 		{
-			MethodName: "CreatePosition",
-			Handler:    _PositionService_CreatePosition_Handler,
+			MethodName: "Destroy",
+			Handler:    _PositionService_Destroy_Handler,
 		},
 		{
-			MethodName: "UpdatePosition",
-			Handler:    _PositionService_UpdatePosition_Handler,
+			MethodName: "Retrieve",
+			Handler:    _PositionService_Retrieve_Handler,
 		},
 		{
-			MethodName: "GetPositionList",
-			Handler:    _PositionService_GetPositionList_Handler,
+			MethodName: "Read",
+			Handler:    _PositionService_Read_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

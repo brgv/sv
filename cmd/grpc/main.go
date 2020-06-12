@@ -24,8 +24,13 @@ func main() {
 
 	server := grpc.NewServer()
 
-	rpc.RegisterPersonServiceServer(server, &person.RpcServer{})
-	rpc.RegisterPositionServiceServer(server, &position.RpcServer{})
+	if serviceServer, err := person.NewServiceServer(); err != nil {
+		rpc.RegisterPersonServiceServer(server, serviceServer)
+	}
+
+	if serviceServer, err := position.NewServiceServer(); err != nil {
+		rpc.RegisterPositionServiceServer(server, serviceServer)
+	}
 
 	reflection.Register(server)
 

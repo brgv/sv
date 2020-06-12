@@ -14,8 +14,8 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
         version: "v0.0.0"
         contact: {
             name: "unknown"
-            url: "unknown"
-            email: "unknown"
+            url: "http://unknown"
+            email: "unknown@unknown"
         };
     };
 

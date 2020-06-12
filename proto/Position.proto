@@ -2,83 +2,91 @@ syntax = "proto3";
 
 package rpc;
 
+// --------------------------------------------------------------------------------------------------------------------
+
 option go_package = "github.com/brgv/sv/gen/rpc";
 
-import "google/api/annotations.proto";
+// --------------------------------------------------------------------------------------------------------------------
+
 //import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 
-// Запрос позиции
-message PositionId {
-    // Уникальный идентификатор записи
-    uint64 id = 1;
-}
+import "proto/request.proto";
+import "proto/response.proto";
 
-// Данные позиции
-message PositionData {
-    // Название записи
-    string name = 1;
-}
+// --------------------------------------------------------------------------------------------------------------------
 
-// Позиция
 message Position {
-    // Уникальный идентификатор записи
-    uint64 id = 1;
-    // Название записи
-    string name = 10;
+  uint64 id = 1;
+  uint64 priority = 2;
+
+  string gid = 3;
+
+  google.protobuf.Timestamp date_created = 4 [json_name = "date_created"];
+  google.protobuf.Timestamp date_updated = 5 [json_name = "date_updated"];
+
+  google.protobuf.Timestamp date_removed = 6 [json_name = "date_removed"];
+  bool removed = 7;
+
+  google.protobuf.Timestamp date_enabled = 8 [json_name = "date_enabled"];
+  bool enabled = 9;
+
+  string name = 10;
 }
 
-// Запрос списка записей
-message PositionListFilter {
-    // Количество записей
-    uint64 limit = 1;
-    // Смещение записей
-    uint64 start = 2;
+// --------------------------------------------------------------------------------------------------------------------
+
+message PositionRequest {
+  Position data = 1;
 }
 
-// Ответ с списком записей
-message PositionList {
-    // Список записей
-    repeated Position data = 1;
+// --------------------------------------------------------------------------------------------------------------------
+
+message PositionResponse {
+  Position data = 1;
 }
 
-// Позиции
+message ListPositionResponse {
+  repeated Position data = 1;
+}
+
+// --------------------------------------------------------------------------------------------------------------------
+
 service PositionService {
 
-    // Получить запись по уникальному идентификатору
-    rpc GetPosition (PositionId) returns (Position) {
-        option (google.api.http) = {
-            get: "/api/v1/positions/{id}"
-        };
-    }
-
-    // Удалить запись по уникальному идентификатору
-    rpc DestroyPosition (PositionId) returns (Position) {
-        option (google.api.http) = {
-            delete: "/api/v1/positions/{id}"
-        };
-    }
-
-    // Создать запись
-    rpc CreatePosition (PositionData) returns (Position) {
-        option (google.api.http) = {
+  rpc Create (PositionRequest) returns (PositionResponse) {
+    option (google.api.http) = {
             post: "/api/v1/positions"
             body: "*"
         };
-    }
+  }
 
-    // Обновить запись по уникальному идентификатору
-    rpc UpdatePosition (Position) returns (Position) {
-        option (google.api.http) = {
-            put: "/api/v1/positions/{id}"
+  rpc Update (PositionRequest) returns (PositionResponse) {
+    option (google.api.http) = {
+            put: "/api/v1/positions/{data.id}"
             body: "*"
         };
-    }
+  }
 
-    // Получить список записей
-    rpc GetPositionList (PositionListFilter) returns (PositionList) {
-        option (google.api.http) = {
+  rpc Destroy (IdentityRequest) returns (StatusResponse) {
+    option (google.api.http) = {
+            delete: "/api/v1/positions/{id}"
+        };
+  }
+
+  rpc Retrieve (IdentityRequest) returns (PositionResponse) {
+    option (google.api.http) = {
+            get: "/api/v1/positions/{id}"
+        };
+  }
+
+  rpc Read (ListRequest) returns (ListPositionResponse) {
+    option (google.api.http) = {
             get: "/api/v1/positions"
         };
-    }
+  }
 
 }
+
+// --------------------------------------------------------------------------------------------------------------------

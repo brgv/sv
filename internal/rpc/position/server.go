@@ -5,24 +5,28 @@ import (
 	"github.com/brgv/sv/gen/rpc"
 )
 
-type RpcServer struct{}
+func NewServiceServer() (rpc.PositionServiceServer, error) {
+	return &serviceServer{}, nil
+}
 
-func (s *RpcServer) GetPositionList(ctx context.Context, in *rpc.PositionListFilter) (*rpc.PositionList, error) {
+type serviceServer struct{}
+
+func (s *serviceServer) Create(ctx context.Context, in *rpc.PositionRequest) (*rpc.PositionResponse, error) {
 	return nil, nil
 }
 
-func (s *RpcServer) GetPosition(ctx context.Context, in *rpc.PositionId) (*rpc.Position, error) {
+func (s *serviceServer) Update(ctx context.Context, in *rpc.PositionRequest) (*rpc.PositionResponse, error) {
 	return nil, nil
 }
 
-func (s *RpcServer) CreatePosition(ctx context.Context, in *rpc.PositionData) (*rpc.Position, error) {
+func (s *serviceServer) Destroy(ctx context.Context, in *rpc.IdentityRequest) (*rpc.StatusResponse, error) {
 	return nil, nil
 }
 
-func (s *RpcServer) UpdatePosition(ctx context.Context, in *rpc.Position) (*rpc.Position, error) {
+func (s *serviceServer) Retrieve(ctx context.Context, in *rpc.IdentityRequest) (*rpc.PositionResponse, error) {
 	return nil, nil
 }
 
-func (s *RpcServer) DestroyPosition(ctx context.Context, in *rpc.PositionId) (*rpc.Position, error) {
+func (s *serviceServer) Read(ctx context.Context, in *rpc.ListRequest) (*rpc.ListPositionResponse, error) {
 	return nil, nil
 }

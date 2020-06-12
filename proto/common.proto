@@ -1,0 +1,164 @@
+syntax = "proto3";
+
+package rpc;
+
+// --------------------------------------------------------------------------------------------------------------------
+
+option go_package = "github.com/brgv/sv/gen/rpc";
+
+// --------------------------------------------------------------------------------------------------------------------
+
+import "google/protobuf/timestamp.proto";
+
+// --------------------------------------------------------------------------------------------------------------------
+
+message BooleanValue {
+  bool value = 1;
+}
+
+message IntegerValue {
+  int64 value = 1;
+}
+
+message IntegerValueMap {
+  repeated int64 value = 1;
+}
+
+message DoubleValue {
+  double value = 1;
+}
+
+message DoubleValueMap {
+  repeated double value = 1;
+}
+
+message StringValue {
+  string value = 1;
+}
+
+message StringValueMap {
+  repeated string value = 1;
+}
+
+message TimestampValue {
+  google.protobuf.Timestamp value = 1;
+}
+
+message TimestampValueMap {
+  repeated google.protobuf.Timestamp value = 1;
+}
+
+// --------------------------------------------------------------------------------------------------------------------
+
+message Sorter {
+
+  string name = 1;
+
+  enum Direction {
+    UNKNOWN = 0;
+    ASCENDING = 10;
+    ASCENDING_NULLS_FIRST = 11;
+    ASCENDING_NULLS_LAST = 12;
+    DESCENDING = 20;
+    DESCENDING_NULLS_FIRST = 21;
+    DESCENDING_NULLS_LAST = 22;
+  }
+
+  Direction direction = 2;
+
+}
+
+// --------------------------------------------------------------------------------------------------------------------
+
+message Filter {
+
+  string name = 1;
+
+  enum Operation {
+    UNKNOWN = 0;
+    // equals
+    EQ = 10; // "="
+    // not equals to
+    NEQ = 11; // "!="
+    // greater than
+    GT = 20; // ">"
+    // greater than or equal to
+    GTE = 21; // ">="
+    // less than
+    LT = 30; // "<"
+    // less than or equal to
+    LTE = 31; // "<="
+    // is null
+    ISN = 40; // "IS NULL"
+    // is not null
+    ISNN = 41; // "IS NOT NULL"
+    // in
+    IN = 50; // "IN (v1,v2,vN)"
+    // not in
+    INN = 51; // "NOT IN (v1,v2,vN)"
+    // contains
+    CNS = 100; // "LIKE %value%"
+    // not contains
+    CNSN = 101; // "NOT LIKE %value%"
+    // starts with
+    SSW = 110; // "LIKE value%"
+    // not starts with
+    SSWN = 111; // "NOT LIKE value%"
+    // ends with
+    ESW = 120; // "LIKE %value"
+    // not ends with
+    ESWN = 121; // "NOT LIKE %value"
+    // between
+    BWN = 200; // "BETWEEN value1 AND value2"
+    // not between
+    BWNN = 201; // "NOT BETWEEN value1 AND value2"
+  }
+
+  Operation operation = 2;
+
+  oneof value {
+    BooleanValue booleanValue = 10;
+    IntegerValue integerValue = 20;
+    IntegerValueMap integerValueMap = 21;
+    DoubleValue doubleValue = 30;
+    DoubleValueMap doubleValueMap = 31;
+    StringValue stringValue = 40;
+    StringValueMap stringValueMap = 41;
+    TimestampValue timestampValue = 50;
+    TimestampValueMap timestampValueMap = 51;
+  }
+
+}
+
+// --------------------------------------------------------------------------------------------------------------------
+
+message Group {
+
+  string name = 1;
+
+  enum Function {
+    UNKNOWN = 0;
+    COUNT = 1;
+    MIN = 2;
+    MAX = 3;
+    SUM = 4;
+    AVG = 5;
+  }
+
+  Function function = 2;
+
+  oneof value {
+    BooleanValue booleanValue = 10;
+    IntegerValue integerValue = 20;
+    IntegerValueMap integerValueMap = 21;
+    DoubleValue doubleValue = 30;
+    DoubleValueMap doubleValueMap = 31;
+    StringValue stringValue = 40;
+    StringValueMap stringValueMap = 41;
+    TimestampValue timestampValue = 50;
+    TimestampValueMap timestampValueMap = 51;
+  }
+
+}
+
+// --------------------------------------------------------------------------------------------------------------------

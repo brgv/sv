@@ -5,24 +5,28 @@ import (
 	"github.com/brgv/sv/gen/rpc"
 )
 
-type RpcServer struct{}
+func NewServiceServer() (rpc.PersonServiceServer, error) {
+	return &serviceServer{}, nil
+}
 
-func (s *RpcServer) GetPersonList(ctx context.Context, in *rpc.PersonListFilter) (*rpc.PersonList, error) {
+type serviceServer struct{}
+
+func (s *serviceServer) Create(ctx context.Context, in *rpc.PersonRequest) (*rpc.PersonResponse, error) {
 	return nil, nil
 }
 
-func (s *RpcServer) GetPerson(ctx context.Context, in *rpc.PersonId) (*rpc.Person, error) {
+func (s *serviceServer) Update(ctx context.Context, in *rpc.PersonRequest) (*rpc.PersonResponse, error) {
 	return nil, nil
 }
 
-func (s *RpcServer) CreatePerson(ctx context.Context, in *rpc.PersonData) (*rpc.Person, error) {
+func (s *serviceServer) Destroy(ctx context.Context, in *rpc.IdentityRequest) (*rpc.StatusResponse, error) {
 	return nil, nil
 }
 
-func (s *RpcServer) UpdatePerson(ctx context.Context, in *rpc.Person) (*rpc.Person, error) {
+func (s *serviceServer) Retrieve(ctx context.Context, in *rpc.IdentityRequest) (*rpc.PersonResponse, error) {
 	return nil, nil
 }
 
-func (s *RpcServer) DestroyPerson(ctx context.Context, in *rpc.PersonId) (*rpc.Person, error) {
+func (s *serviceServer) Read(ctx context.Context, in *rpc.ListRequest) (*rpc.ListPersonResponse, error) {
 	return nil, nil
 }
