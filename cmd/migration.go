@@ -1,6 +1,11 @@
 package cmd
 
-import "github.com/spf13/cobra"
+import (
+	"fmt"
+	"github.com/brgv/sv/internal/common/config"
+	"github.com/brgv/sv/internal/common/db"
+	"github.com/spf13/cobra"
+)
 
 var migrateSince uint
 var migrateMessage string
@@ -72,6 +77,14 @@ func migrateUpCmdFunc(cmd *cobra.Command, args []string) {}
 
 func migrateDownCmdFunc(cmd *cobra.Command, args []string) {}
 
-func migrateNewCmdFunc(cmd *cobra.Command, args []string) {}
-
 func migrateVersionCmdFunc(cmd *cobra.Command, args []string) {}
+
+func migrateNewCmdFunc(cmd *cobra.Command, args []string) {
+	cfg, err := config.NewConfiguration()
+
+	if err != nil {
+		fmt.Printf("Error reading config file, %s", err)
+	}
+
+	db.NewMigrationFile(cfg.Migrate.Dir, migrateMessage)
+}

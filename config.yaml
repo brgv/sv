@@ -1,0 +1,8 @@
+metric:
+  port: 9090
+
+http:
+  port: 8080
+
+grpc:
+  port: 50051

@@ -38,7 +38,8 @@ message Position {
 // --------------------------------------------------------------------------------------------------------------------
 
 message PositionRequest {
-  Position data = 1;
+  string version = 1;
+  Position data = 2;
 }
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -57,34 +58,38 @@ service PositionService {
 
   rpc Create (PositionRequest) returns (PositionResponse) {
     option (google.api.http) = {
-            post: "/api/v1/positions"
-            body: "*"
-        };
+      post: "/api/v1/positions"
+      body: "*"
+    };
   }
 
   rpc Update (PositionRequest) returns (PositionResponse) {
     option (google.api.http) = {
-            put: "/api/v1/positions/{data.id}"
-            body: "*"
-        };
+      put: "/api/v1/positions/{data.id}"
+      body: "*"
+      additional_bindings {
+        patch: "/api/v1/positions/{data.id}"
+        body: "*"
+      }
+    };
   }
 
   rpc Destroy (IdentityRequest) returns (StatusResponse) {
     option (google.api.http) = {
-            delete: "/api/v1/positions/{id}"
-        };
+      delete: "/api/v1/positions/{id}"
+    };
   }
 
   rpc Retrieve (IdentityRequest) returns (PositionResponse) {
     option (google.api.http) = {
-            get: "/api/v1/positions/{id}"
-        };
+      get: "/api/v1/positions/{id}"
+    };
   }
 
   rpc Read (ListRequest) returns (ListPositionResponse) {
     option (google.api.http) = {
-            get: "/api/v1/positions"
-        };
+      get: "/api/v1/positions"
+    };
   }
 
 }

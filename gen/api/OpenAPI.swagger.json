@@ -45,6 +45,12 @@
         },
         "parameters": [
           {
+            "name": "version",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "start",
             "in": "query",
             "required": false,
@@ -158,6 +164,50 @@
         "tags": [
           "PersonService"
         ]
+      },
+      "patch": {
+        "operationId": "PersonService_Update2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/rpcPersonResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "data.id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rpcPersonRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PersonService"
+        ]
       }
     },
     "/api/v1/persons/{id}": {
@@ -191,6 +241,12 @@
             "required": true,
             "type": "string",
             "format": "uint64"
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -227,6 +283,12 @@
             "required": true,
             "type": "string",
             "format": "uint64"
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -259,6 +321,12 @@
           }
         },
         "parameters": [
+          {
+            "name": "version",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
           {
             "name": "start",
             "in": "query",
@@ -373,6 +441,50 @@
         "tags": [
           "PositionService"
         ]
+      },
+      "patch": {
+        "operationId": "PositionService_Update2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/rpcPositionResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "data.id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rpcPositionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PositionService"
+        ]
       }
     },
     "/api/v1/positions/{id}": {
@@ -406,6 +518,12 @@
             "required": true,
             "type": "string",
             "format": "uint64"
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -442,6 +560,12 @@
             "required": true,
             "type": "string",
             "format": "uint64"
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -718,6 +842,9 @@
     "rpcPersonRequest": {
       "type": "object",
       "properties": {
+        "version": {
+          "type": "string"
+        },
         "data": {
           "$ref": "#/definitions/rpcPerson"
         }
@@ -777,6 +904,9 @@
     "rpcPositionRequest": {
       "type": "object",
       "properties": {
+        "version": {
+          "type": "string"
+        },
         "data": {
           "$ref": "#/definitions/rpcPosition"
         }

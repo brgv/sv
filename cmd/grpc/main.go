@@ -1,13 +1,9 @@
 package main
 
 import (
-	"github.com/brgv/sv/gen/rpc"
-	"github.com/brgv/sv/internal/rpc/person"
-	"github.com/brgv/sv/internal/rpc/position"
-	"google.golang.org/grpc"
+	"github.com/brgv/sv/internal/rpc"
 	"google.golang.org/grpc/reflection"
 	"log"
-	"net"
 )
 
 const (
@@ -16,26 +12,25 @@ const (
 
 func main() {
 
-	lis, err := net.Listen("tcp", port)
+	server, err := rpc.NewServer()
+
+	log.Printf("Error: %#v", err)
+	log.Printf("Server: %#v", server)
 
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		panic(err)
 	}
 
-	server := grpc.NewServer()
-
-	if serviceServer, err := person.NewServiceServer(); err != nil {
-		rpc.RegisterPersonServiceServer(server, serviceServer)
-	}
-
-	if serviceServer, err := position.NewServiceServer(); err != nil {
-		rpc.RegisterPositionServiceServer(server, serviceServer)
-	}
+	rpc.SetupServer(server)
 
 	reflection.Register(server)
 
-	if err := server.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+	if listener, err := rpc.NewListener(port); err != nil {
+		log.Fatalf("Failed to listen: %v", err)
+	} else {
+		if err := server.Serve(listener); err != nil {
+			log.Fatalf("Failed to serve: %v", err)
+		}
 	}
 
 }

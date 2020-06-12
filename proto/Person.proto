@@ -41,7 +41,8 @@ message Person {
 // --------------------------------------------------------------------------------------------------------------------
 
 message PersonRequest {
-  Person data = 1;
+  string version = 1;
+  Person data = 2;
 }
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -60,34 +61,38 @@ service PersonService {
 
   rpc Create (PersonRequest) returns (PersonResponse) {
     option (google.api.http) = {
-            post: "/api/v1/persons"
-            body: "*"
-        };
+      post: "/api/v1/persons"
+      body: "*"
+    };
   }
 
   rpc Update (PersonRequest) returns (PersonResponse) {
     option (google.api.http) = {
-            put: "/api/v1/persons/{data.id}"
-            body: "*"
-        };
+      put: "/api/v1/persons/{data.id}"
+      body: "*"
+      additional_bindings {
+        patch: "/api/v1/persons/{data.id}"
+        body: "*"
+      }
+    };
   }
 
   rpc Destroy (IdentityRequest) returns (StatusResponse) {
     option (google.api.http) = {
-            delete: "/api/v1/persons/{id}"
-        };
+      delete: "/api/v1/persons/{id}"
+    };
   }
 
   rpc Retrieve (IdentityRequest) returns (PersonResponse) {
     option (google.api.http) = {
-            get: "/api/v1/persons/{id}"
-        };
+      get: "/api/v1/persons/{id}"
+    };
   }
 
   rpc Read (ListRequest) returns (ListPersonResponse) {
     option (google.api.http) = {
-            get: "/api/v1/persons"
-        };
+      get: "/api/v1/persons"
+    };
   }
 
 }
